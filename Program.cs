@@ -5,7 +5,8 @@
 */
 
 
-ExecuteTest(Temp);
+ExecuteTest(Test1);
+ExecuteTest(Test3);
 // TEST Executor
 static void ExecuteTest(Action test)
 {
@@ -87,12 +88,6 @@ static void Test3()
 
     }
 }
-
-static void Temp()
-{
-    throw new System.ArgumentException("This is an argument exception");
-}
-
 
 
 
