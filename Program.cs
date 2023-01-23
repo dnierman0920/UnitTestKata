@@ -1,8 +1,8 @@
 ﻿try
 {
-    throw new Exception("my first exception");
+    throw new Exception("Divide by 0");
 }
-catch
+catch (DivideByZeroException)
 {
 
 }
