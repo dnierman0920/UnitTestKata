@@ -28,43 +28,6 @@ static void ExecuteTest(Action test)
 }
 
 
-// TEST 1 (Testing throw sys method)
-try
-{
-    Test1();
-}
-catch (Exception e2)
-{
-    if (e2 is InvalidTimeZoneException)
-    {
-
-    }
-    else
-    {
-        throw new System.Exception($"unexpected exception type {e2.GetType()}");
-    }
-}
-
-
-// TEST 3 (Testing sys method catch)
-// This try/catch is the production code
-try
-{
-    // This try/catch is the test
-    Test3();
-}
-catch (Exception e2)
-{
-    if (e2 is InvalidTimeZoneException)
-    {
-
-    }
-    else
-    {
-        throw new System.Exception($"unexpected exception type {e2.GetType()}");
-    }
-}
-
 static void Test1()
 {
     try
