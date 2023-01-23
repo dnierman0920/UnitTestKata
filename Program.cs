@@ -7,6 +7,7 @@
 
 ExecuteTest(Test1);
 ExecuteTest(Test3);
+ExecuteTest(Test4);
 // TEST Executor
 static void ExecuteTest(Action test)
 {
@@ -45,6 +46,19 @@ static void Test3()
     try
     {
         throw new System.InvalidTimeZoneException("This exception should fail");
+    }
+    catch (DivideByZeroException e)
+    {
+
+    }
+}
+
+// 
+static void Test4()
+{
+    try
+    {
+        throw new System.ArgumentException("This exception should fail");
     }
     catch (DivideByZeroException e)
     {
