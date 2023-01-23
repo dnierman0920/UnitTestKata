@@ -33,6 +33,25 @@ static void ExecuteTest(Action[] tests)
     }
 
 }
+static void Assert(Action test)
+{
+    try
+    {
+        test();
+    }
+    catch (DivideByZeroException)
+    {
+
+    }
+
+    catch (Exception e2)
+    {
+        throw new System.Exception($"unexpected exception type {e2.GetType()}");
+
+    }
+
+
+}
 
 
 static void Test1()
@@ -41,7 +60,7 @@ static void Test1()
     {
         throw new DivideByZeroException("Divide by zero");
     }
-    M();
+    Assert(M);
 }
 
 static void Test3()
