@@ -5,69 +5,56 @@
 */
 
 
-ExecuteTest(Test1);
-ExecuteTest(Test3);
-ExecuteTest(Test4);
+Action[] tests = { Test1, Test3, Test4 };
+ExecuteTest(tests);
 // TEST Executor
-static void ExecuteTest(Action test)
+static void ExecuteTest(Action[] tests)
 {
-    try
+    foreach (Action test in tests)
     {
-        test();
-    }
-    catch (Exception e2)
-    {
-        if (e2 is InvalidTimeZoneException)
+        try
+        {
+            test();
+        }
+        catch (InvalidTimeZoneException)
         {
 
         }
-        else if (e2 is ArgumentException)
+        catch (ArgumentException)
         {
 
         }
-        else
+        catch (DivideByZeroException)
+        {
+
+        }
+        catch (Exception e2)
         {
             throw new System.Exception($"unexpected exception type {e2.GetType()}");
+
         }
     }
+
 }
 
 
 static void Test1()
 {
-    try
-    {
-        throw new DivideByZeroException("Divide by zero");
-    }
-    catch (DivideByZeroException e)
-    {
 
-    }
+    throw new DivideByZeroException("Divide by zero");
+
 }
 
 static void Test3()
 {
-    try
-    {
-        throw new System.InvalidTimeZoneException("This exception should fail");
-    }
-    catch (DivideByZeroException e)
-    {
-
-    }
+    throw new System.InvalidTimeZoneException("This exception should fail");
 }
 
 // 
 static void Test4()
 {
-    try
-    {
-        throw new System.ArgumentException("This exception should fail");
-    }
-    catch (DivideByZeroException e)
-    {
+    throw new System.ArgumentException("This exception should fail");
 
-    }
 }
 
 
