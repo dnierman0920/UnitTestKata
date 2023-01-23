@@ -30,9 +30,11 @@ catch
 
 }
 
-// TEST 3
+// TEST 3 (Testing sys method catch)
+// This try/catch is the production code
 try
 {
+    // This try/catch is the test
     try
     {
         throw new System.InvalidTimeZoneException("This exception should fail");
@@ -45,7 +47,7 @@ try
 }
 catch (Exception e2)
 {
-    if (e2 is InvalidCastException)
+    if (e2 is InvalidTimeZoneException)
     {
 
     }
