@@ -1,11 +1,14 @@
-﻿try
+﻿// TEST 1
+try
 {
-    throw new Exception("Divide by 0");
+    throw new DivideByZeroException("Divide by zero");
 }
-catch (DivideByZeroException)
+catch (DivideByZeroException e)
 {
 
 }
+
+
 
 
 
