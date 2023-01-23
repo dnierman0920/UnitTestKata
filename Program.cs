@@ -1,4 +1,12 @@
-﻿throw new Exception("my first exception");
+﻿try
+{
+    throw new Exception("my first exception");
+}
+catch
+{
+
+}
+
 
 
 
