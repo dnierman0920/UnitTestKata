@@ -16,18 +16,9 @@ static void ExecuteTest(Action[] tests)
         {
             test();
         }
-        catch (InvalidTimeZoneException)
-        {
-
-        }
-        catch (ArgumentException)
-        {
-
-        }
-
         catch (Exception e2)
         {
-            throw new System.Exception($"unexpected exception type {e2.GetType()}");
+            throw new System.Exception($"unexpected exception type {e2.GetType()}, {e2.ToString()}");
 
         }
     }
@@ -43,11 +34,18 @@ static void Assert(Action test)
     {
 
     }
+    catch (InvalidTimeZoneException)
+    {
+
+    }
+    catch (ArgumentException)
+    {
+
+    }
 
     catch (Exception e2)
     {
         throw new System.Exception($"unexpected exception type {e2.GetType()}");
-
     }
 
 
@@ -65,13 +63,22 @@ static void Test1()
 
 static void Test3()
 {
-    throw new System.InvalidTimeZoneException("This exception should fail");
+    static void M()
+    {
+        throw new System.InvalidTimeZoneException("This exception should fail");
+    }
+    Assert(M);
 }
 
 // 
 static void Test4()
 {
-    throw new System.ArgumentException("This exception should fail");
+    static void M()
+    {
+        throw new System.ArgumentException("This exception should fail");
+    }
+    Assert(M);
+
 }
 
 
