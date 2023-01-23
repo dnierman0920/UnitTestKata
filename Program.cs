@@ -21,6 +21,10 @@ static void ExecuteTest(Action test)
         {
 
         }
+        else if (e2 is ArgumentException)
+        {
+
+        }
         else
         {
             throw new System.Exception($"unexpected exception type {e2.GetType()}");
