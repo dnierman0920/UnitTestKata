@@ -30,6 +30,31 @@ catch
 
 }
 
+// TEST 3
+try
+{
+    try
+    {
+        throw new System.InvalidTimeZoneException("This exception should fail");
+        throw new DivideByZeroException("Divide by zero");
+    }
+    catch (DivideByZeroException e)
+    {
+
+    }
+}
+catch (Exception e2)
+{
+    if (e2 is InvalidCastException)
+    {
+
+    }
+    else
+    {
+        throw new System.Exception($"unexpected exception type {e2.GetType()}");
+    }
+}
+
 
 
 
