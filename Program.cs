@@ -24,10 +24,7 @@ static void ExecuteTest(Action[] tests)
         {
 
         }
-        catch (DivideByZeroException)
-        {
 
-        }
         catch (Exception e2)
         {
             throw new System.Exception($"unexpected exception type {e2.GetType()}");
@@ -40,9 +37,11 @@ static void ExecuteTest(Action[] tests)
 
 static void Test1()
 {
-
-    throw new DivideByZeroException("Divide by zero");
-
+    static void M()
+    {
+        throw new DivideByZeroException("Divide by zero");
+    }
+    M();
 }
 
 static void Test3()
@@ -54,7 +53,6 @@ static void Test3()
 static void Test4()
 {
     throw new System.ArgumentException("This exception should fail");
-
 }
 
 
