@@ -5,29 +5,32 @@
 */
 
 
+ExecuteTest(Temp);
+// TEST Executor
+static void ExecuteTest(Action test)
+{
+    try
+    {
+        test();
+    }
+    catch (Exception e2)
+    {
+        if (e2 is InvalidTimeZoneException)
+        {
+
+        }
+        else
+        {
+            throw new System.Exception($"unexpected exception type {e2.GetType()}");
+        }
+    }
+}
+
+
 // TEST 1 (Testing throw sys method)
 try
 {
-    throw new DivideByZeroException("Divide by zero");
-}
-catch (DivideByZeroException e)
-{
-
-}
-
-// TEST 3 (Testing sys method catch)
-// This try/catch is the production code
-try
-{
-    // This try/catch is the test
-    try
-    {
-        throw new System.InvalidTimeZoneException("This exception should fail");
-    }
-    catch (DivideByZeroException e)
-    {
-
-    }
+    Test1();
 }
 catch (Exception e2)
 {
@@ -40,6 +43,58 @@ catch (Exception e2)
         throw new System.Exception($"unexpected exception type {e2.GetType()}");
     }
 }
+
+
+// TEST 3 (Testing sys method catch)
+// This try/catch is the production code
+try
+{
+    // This try/catch is the test
+    Test3();
+}
+catch (Exception e2)
+{
+    if (e2 is InvalidTimeZoneException)
+    {
+
+    }
+    else
+    {
+        throw new System.Exception($"unexpected exception type {e2.GetType()}");
+    }
+}
+
+static void Test1()
+{
+    try
+    {
+        throw new DivideByZeroException("Divide by zero");
+    }
+    catch (DivideByZeroException e)
+    {
+
+    }
+}
+
+static void Test3()
+{
+    try
+    {
+        throw new System.InvalidTimeZoneException("This exception should fail");
+    }
+    catch (DivideByZeroException e)
+    {
+
+    }
+}
+
+static void Temp()
+{
+    throw new System.ArgumentException("This is an argument exception");
+}
+
+
+
 
 
 
