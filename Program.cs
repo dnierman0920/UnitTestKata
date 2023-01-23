@@ -24,21 +24,13 @@ static void ExecuteTest(Action[] tests)
     }
 
 }
-static void Assert(Action test)
+static void Assert<TException>(Action test) where TException : Exception
 {
     try
     {
         test();
     }
-    catch (DivideByZeroException)
-    {
-
-    }
-    catch (InvalidTimeZoneException)
-    {
-
-    }
-    catch (ArgumentException)
+    catch (TException)
     {
 
     }
@@ -58,7 +50,7 @@ static void Test1()
     {
         throw new DivideByZeroException("Divide by zero");
     }
-    Assert(M);
+    Assert<DivideByZeroException>(M);
 }
 
 static void Test3()
@@ -67,7 +59,7 @@ static void Test3()
     {
         throw new System.InvalidTimeZoneException("This exception should fail");
     }
-    Assert(M);
+    Assert<InvalidTimeZoneException>(M);
 }
 
 // 
@@ -77,8 +69,7 @@ static void Test4()
     {
         throw new System.ArgumentException("This exception should fail");
     }
-    Assert(M);
-
+    Assert<ArgumentException>(M);
 }
 
 
