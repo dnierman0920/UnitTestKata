@@ -101,6 +101,7 @@ class TestResults
 {
     public void Summarize(System.IO.TextWriter writer)
     {
+        writer.WriteLine($"Passed#:{0} | Failed#:{0}");
     }
 }
 
