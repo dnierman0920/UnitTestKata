@@ -9,7 +9,7 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        Action[] tests = { Test1, Test3, Test4, Test5, Test6, Test7 };
+        Action[] tests = { Test1, Test3, Test4, Test5, Test6, Test7, CallPassedTestTwice };
         ExecuteTests(tests);
         // TEST Executor
         static void ExecuteTests(Action[] tests)
@@ -118,6 +118,23 @@ internal class Program
         var nameOfTest = "TEST#";
         testResults.CountPassedTest(nameOfTest, sw);
         string expected = $"Passed:{nameOfTest}\n";
+        if (string.Equals(expected, sw.ToString()))
+        {
+
+        }
+        else
+        {
+            throw new System.Exception($"Strings did NOT match \n'{expected}'\n'{sw.ToString()}'");
+        }
+    }
+    static void CallPassedTestTwice()
+    {
+        System.IO.StringWriter sw = new System.IO.StringWriter();
+        var testResults = new TestResults();
+        testResults.CountPassedTest("random string", System.IO.TextWriter.Null);
+        testResults.CountPassedTest("random string", System.IO.TextWriter.Null);
+        testResults.Summarize(sw);
+        string expected = $"Passed#:{2} | Failed#:{0}\n";
         if (string.Equals(expected, sw.ToString()))
         {
 
