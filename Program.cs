@@ -99,7 +99,7 @@ internal class Program
     {
         System.IO.StringWriter sw = new System.IO.StringWriter();
         var testResults = new TestResults();
-        testResults.CountPassedTest(1);
+        testResults.CountPassedTest("random string", System.IO.TextWriter.Null);
         testResults.Summarize(sw);
         string expected = $"Passed#:{1} | Failed#:{0}\n";
         if (string.Equals(expected, sw.ToString()))
@@ -137,13 +137,14 @@ class TestResults
     {
         writer.WriteLine($"Passed#:{passedCount} | Failed#:{0}");
     }
-    public void CountPassedTest(int count)
+    private void CountPassedTest(int count)
     {
         passedCount = count;
     }
     public void CountPassedTest(string testName, System.IO.TextWriter writer)
     {
         writer.WriteLine($"Passed:{testName}");
+        CountPassedTest(1);
     }
 }
 
