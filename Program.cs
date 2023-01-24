@@ -5,77 +5,104 @@
 */
 
 
-Action[] tests = { Test1, Test3, Test4 };
-ExecuteTest(tests);
-// TEST Executor
-static void ExecuteTest(Action[] tests)
+internal class Program
 {
-    foreach (Action test in tests)
+    private static void Main(string[] args)
     {
-        try
+        Action[] tests = { Test1, Test3, Test4, Test5 };
+        ExecuteTests(tests);
+        // TEST Executor
+        static void ExecuteTests(Action[] tests)
         {
-            test();
+            foreach (Action test in tests)
+            {
+                try
+                {
+                    test();
+                }
+                catch (Exception e2)
+                {
+                    throw new System.Exception($"unexpected exception type {e2.GetType()}, {e2.ToString()}");
+
+                }
+            }
+
         }
-        catch (Exception e2)
+        static void Assert<TException>(Action test) where TException : Exception
         {
-            throw new System.Exception($"unexpected exception type {e2.GetType()}, {e2.ToString()}");
+            try
+            {
+                test();
+            }
+            catch (TException)
+            {
+
+            }
+
+            catch (Exception e2)
+            {
+                throw new System.Exception($"unexpected exception type {e2.GetType()}");
+            }
+
 
         }
-    }
 
+
+        static void Test1()
+        {
+            static void M()
+            {
+                throw new DivideByZeroException("Divide by zero");
+            }
+            Assert<DivideByZeroException>(M);
+        }
+
+        static void Test3()
+        {
+            static void M()
+            {
+                throw new System.InvalidTimeZoneException("This exception should fail");
+            }
+            Assert<InvalidTimeZoneException>(M);
+        }
+
+        // 
+        static void Test4()
+        {
+            static void M()
+            {
+                throw new System.ArgumentException("This exception should fail");
+            }
+            Assert<ArgumentException>(M);
+        }
+
+
+
+        // Test it is printing the right thing
+        static void Test5()
+        {
+            System.IO.StringWriter sw = new System.IO.StringWriter();
+            var testResults = new TestResults();
+            testResults.Summarize(sw);
+            string expected = $"Passed#:{0} | Failed#:{0}\n";
+            if (string.Equals(expected, sw.ToString()))
+            {
+
+            }
+            else
+            {
+                throw new System.Exception($"Strings did NOT match \n'{expected}'\n'{sw.ToString()}'");
+            }
+        }
+    }
 }
-static void Assert<TException>(Action test) where TException : Exception
+
+class TestResults
 {
-    try
+    public void Summarize(System.IO.TextWriter writer)
     {
-        test();
     }
-    catch (TException)
-    {
-
-    }
-
-    catch (Exception e2)
-    {
-        throw new System.Exception($"unexpected exception type {e2.GetType()}");
-    }
-
-
 }
-
-
-static void Test1()
-{
-    static void M()
-    {
-        throw new DivideByZeroException("Divide by zero");
-    }
-    Assert<DivideByZeroException>(M);
-}
-
-static void Test3()
-{
-    static void M()
-    {
-        throw new System.InvalidTimeZoneException("This exception should fail");
-    }
-    Assert<InvalidTimeZoneException>(M);
-}
-
-// 
-static void Test4()
-{
-    static void M()
-    {
-        throw new System.ArgumentException("This exception should fail");
-    }
-    Assert<ArgumentException>(M);
-}
-
-
-
-
-
 
 
 
