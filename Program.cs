@@ -1,5 +1,5 @@
 ﻿/*
-1. Write a failing test(As close to zero changes to code)
+1. Write a failing test(As close to zero changes to code) - compilation errors are okay to fix in prod! 
 2. Make the test pass(DO NOT CHANGE TEST!)
 3. Change the code (without breaking the test) aka refactoring
 */
@@ -115,9 +115,9 @@ internal class Program
     {
         System.IO.StringWriter sw = new System.IO.StringWriter();
         var testResults = new TestResults();
-        var nameOfTest = "TEST#\n";
-        testResults.CountPassedTest(nameOfTest);
-        string expected = $"Passed:{nameOfTest}";
+        var nameOfTest = "TEST#";
+        testResults.CountPassedTest(nameOfTest, sw);
+        string expected = $"Passed:{nameOfTest}\n";
         if (string.Equals(expected, sw.ToString()))
         {
 
@@ -141,9 +141,9 @@ class TestResults
     {
         passedCount = count;
     }
-    public void CountPassedTest(string testName)
+    public void CountPassedTest(string testName, System.IO.TextWriter writer)
     {
-
+        writer.WriteLine($"Passed:{testName}");
     }
 }
 
