@@ -9,7 +9,7 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        Action[] tests = { Test1, Test3, Test4, Test5 };
+        Action[] tests = { Test1, Test3, Test4, Test5, Test6 };
         ExecuteTests(tests);
         // TEST Executor
         static void ExecuteTests(Action[] tests)
@@ -95,13 +95,34 @@ internal class Program
             }
         }
     }
+    static void Test6()
+    {
+        System.IO.StringWriter sw = new System.IO.StringWriter();
+        var testResults = new TestResults();
+        testResults.CountPassedTest(1);
+        testResults.Summarize(sw);
+        string expected = $"Passed#:{1} | Failed#:{0}\n";
+        if (string.Equals(expected, sw.ToString()))
+        {
+
+        }
+        else
+        {
+            throw new System.Exception($"Strings did NOT match \n'{expected}'\n'{sw.ToString()}'");
+        }
+    }
 }
+
 
 class TestResults
 {
     public void Summarize(System.IO.TextWriter writer)
     {
         writer.WriteLine($"Passed#:{0} | Failed#:{0}");
+    }
+    public void CountPassedTest(int count)
+    {
+
     }
 }
 
