@@ -154,14 +154,10 @@ class TestResults
     {
         writer.WriteLine($"Passed#:{passedCount} | Failed#:{0}");
     }
-    private void CountPassedTest(int count)
-    {
-        passedCount = count;
-    }
     public void CountPassedTest(string testName, System.IO.TextWriter writer)
     {
         writer.WriteLine($"Passed:{testName}");
-        CountPassedTest(1);
+        passedCount++;
     }
 }
 
