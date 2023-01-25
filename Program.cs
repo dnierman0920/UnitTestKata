@@ -30,15 +30,15 @@ internal class Program
                 {
                     test();
                 }
-                catch (Exception e2)
+                catch (Exception e)
                 {
-                    throw new System.Exception($"unexpected exception type {e2.GetType()}, {e2.ToString()}");
-                    // testResults.RecordFailingTest(test.Method.Name, writer);
+                    // throw new System.Exception($"unexpected exception type {e2.GetType()}, {e2.ToString()}");
+                    testResults.RecordFailingTest(test.Method.Name, writer, e);
                 }
                 testResults.RecordPassingTest(test.Method.Name, writer);
             }
             testResults.Summarize(writer);
-            // throw new System.Exception($"\n{writer.ToString()}");
+            throw new System.Exception($"\n{writer.ToString()}");
         }
         // Asserter
         static void Assert<TException>(Action test) where TException : Exception
