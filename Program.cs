@@ -304,7 +304,7 @@ internal class Program
 
         public void RecordFailingTest(string testName, System.IO.TextWriter writer, System.Exception e)
         {
-            writer.WriteLine($"Failed:{testName}");
+            writer.WriteLine($"Failed:{testName} - {e.ToString()}");
             failedCount++;
         }
     }
