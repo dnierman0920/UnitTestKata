@@ -38,7 +38,7 @@ internal class Program
                 testResults.RecordPassingTest(test.Method.Name, writer);
             }
             testResults.Summarize(writer);
-
+            throw new System.Exception($"\n{writer.ToString()}");
         }
         // Asserter
         static void Assert<TException>(Action test) where TException : Exception
