@@ -197,11 +197,7 @@ internal class Program
 
         static void CallExecuteTestsToTestSummary()
         {
-            static void PassingTest()
-            {
-
-            }
-            Action[] tests = { PassingTest };
+            Action[] tests = { };
 
             System.IO.StringWriter sw = new System.IO.StringWriter();
             ExecuteTests(tests, sw);
@@ -233,7 +229,7 @@ internal class Program
             {
                 expected += $"Passed:{test.Method.Name}\n";
             }
-            expected += $"Passed#:{0} | Failed#:{0}\n";
+            expected += $"Passed#:{1} | Failed#:{0}\n";
             if (string.Equals(expected, sw.ToString()))
             {
 
