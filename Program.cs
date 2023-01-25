@@ -17,7 +17,7 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        Action[] tests = { Test1, Test3, Test4, Test5, Test6, Test7, CallPassedTestTwice, CallRecordFailingTest, CallRecordFailingTestName, CallExecuteTestsToTestSummary, CallExecuteTestToTestPassedCount, CallExecuteTestsToTestFailedCount };
+        Action[] tests = { Test1, Test3, Test4, Test5, Test6, Test7, CallPassedTestTwice, CallRecordFailingTest, CallRecordFailingTestName, CallExecuteTestsToTestSummary, CallExecuteTestToTestPassedCount };
         ExecuteTests(tests, new System.IO.StringWriter());
 
         //  Executor
@@ -29,12 +29,10 @@ internal class Program
                 try
                 {
                     test();
-                    // test.Method.Name;
                 }
                 catch (Exception e2)
                 {
-                    testResults.RecordFailingTest(test.Method.Name, writer);
-                    // throw new System.Exception($"unexpected exception type {e2.GetType()}, {e2.ToString()}");
+                    throw new System.Exception($"unexpected exception type {e2.GetType()}, {e2.ToString()}");
                 }
                 testResults.RecordPassingTest(test.Method.Name, writer);
             }
@@ -213,6 +211,7 @@ internal class Program
             }
 
         }
+
         static void CallExecuteTestToTestPassedCount()
         {
             static void PassingTest()
@@ -223,13 +222,12 @@ internal class Program
 
             System.IO.StringWriter sw = new System.IO.StringWriter();
             ExecuteTests(tests, sw);
-            var testResults = new TestResults();
             string expected = "";
             foreach (Action test in tests)
             {
                 expected += $"Passed:{test.Method.Name}\n";
             }
-            expected += $"Passed#:{1} | Failed#:{0}\n";
+            expected += $"Passed#:{tests.Length} | Failed#:{0}\n";
             if (string.Equals(expected, sw.ToString()))
             {
 
@@ -240,31 +238,7 @@ internal class Program
             }
         }
 
-        static void CallExecuteTestsToTestFailedCount()
-        {
-            {
-                static void FailingTest()
-                {
-                    throw new System.Exception("This is a failing test!");
-                }
-                Action[] tests = { FailingTest };
 
-                System.IO.StringWriter sw = new System.IO.StringWriter();
-                ExecuteTests(tests, sw);
-                var testResults = new TestResults();
-                string expected = "";
-                expected += $"Passed#:{0} | Failed#:{1}\n";
-                if (string.Equals(expected, sw.ToString()))
-                {
-
-                }
-                else
-                {
-                    throw new System.Exception($"Strings did NOT match \n'{expected}'\n'{sw.ToString()}'");
-                }
-
-            }
-        }
     }
 }
 
