@@ -17,7 +17,7 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        Action[] tests = { Test1, Test3, Test4, Test5, Test6, Test7, CallPassedTestTwice, CallRecordFailingTest };
+        Action[] tests = { Test1, Test3, Test4, Test5, Test6, Test7, CallPassedTestTwice, CallRecordFailingTest, CallRecordFailingTestName };
         ExecuteTests(tests);
 
         //  Executor
@@ -156,7 +156,7 @@ internal class Program
             }
         }
 
-        // testResult.RecordFailingTest is incrementing passed test count by 1 (passedCount)
+        // testResult.RecordFailingTest is incrementing failed test count by 1 (failedCount)
         static void CallRecordFailingTest()
         {
             System.IO.StringWriter sw = new System.IO.StringWriter();
@@ -164,6 +164,24 @@ internal class Program
             testResults.RecordFailingTest();
             testResults.Summarize(sw);
             string expected = $"Passed#:{0} | Failed#:{1}\n";
+            if (string.Equals(expected, sw.ToString()))
+            {
+
+            }
+            else
+            {
+                throw new System.Exception($"Strings did NOT match \n'{expected}'\n'{sw.ToString()}'");
+            }
+        }
+
+        // testResults.RecordPassingTest is building correct string to display nameOfTest
+        static void CallRecordFailingTestName()
+        {
+            System.IO.StringWriter sw = new System.IO.StringWriter();
+            var testResults = new TestResults();
+            string nameOfTest = "Test#";
+            testResults.RecordFailingTest();
+            string expected = $"Failed:{nameOfTest}\n";
             if (string.Equals(expected, sw.ToString()))
             {
 
