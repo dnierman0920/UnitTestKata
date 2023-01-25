@@ -17,7 +17,7 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        Action[] tests = { Test1, Test3, Test4, Test5, Test6, Test7, CallPassedTestTwice, CallRecordFailingTest, CallRecordFailingTestName, CallRecordFailingTestToTestException };
+        Action[] tests = { Test1, Test3, Test4, Test5, Test6, Test7, CallPassedTestTwice, CallRecordFailingTest, CallRecordFailingTestName, CallRecordFailingTestToTestException, CallExecuteTestsToTestSummary };
         ExecuteTests(tests, new System.IO.StringWriter());
 
         //  Executor
@@ -214,24 +214,24 @@ internal class Program
             }
         }
 
-        //     static void CallExecuteTestsToTestSummary()
-        //     {
-        //         Action[] tests = { };
+        static void CallExecuteTestsToTestSummary()
+        {
+            Action[] tests = { };
 
-        //         System.IO.StringWriter sw = new System.IO.StringWriter();
-        //         ExecuteTests(tests, sw);
-        //         var testResults = new TestResults();
-        //         string expected = $"Passed#:{0} | Failed#:{0}\n";
-        //         if (string.Equals(expected, sw.ToString()))
-        //         {
+            System.IO.StringWriter sw = new System.IO.StringWriter();
+            ExecuteTests(tests, sw);
+            var testResults = new TestResults();
+            string expected = $"Passed#:{0} | Failed#:{0}\n";
+            if (string.Equals(expected, sw.ToString()))
+            {
 
-        //         }
-        //         else
-        //         {
-        //             throw new System.Exception($"Strings did NOT match \n'{expected}'\n'{sw.ToString()}'");
-        //         }
+            }
+            else
+            {
+                throw new System.Exception($"Strings did NOT match \n'{expected}'\n'{sw.ToString()}'");
+            }
 
-        //     }
+        }
 
         //     static void CallExecuteTestToTestPassedCount()
         //     {
