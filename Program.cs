@@ -17,7 +17,7 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        Action[] tests = { Test1, Test3, Test4, Test5, Test6, Test7, CallPassedTestTwice, CallRecordFailingTest, CallRecordFailingTestName, CallRecordFailingTestToTestException, CallExecuteTestsToTestSummary, CallExecuteTestToTestPassedCount };
+        Action[] tests = { Test1, Test3, Test4, Test5, Test6, Test7, CallPassedTestTwice, CallRecordFailingTest, CallRecordFailingTestName, CallRecordFailingTestToTestException, CallExecuteTestsToTestSummary, CallExecuteTestToTestPassedCount, CallExecuteTestToTestFailedCount };
         ExecuteTests(tests, new System.IO.StringWriter());
 
         //  Executor
@@ -259,31 +259,31 @@ internal class Program
             }
         }
 
-        // static void CallExecuteTestToTestFailedCount()
-        // {
-        //     static void FailingTest()
-        //     {
-        //         throw new System.Exception("This Test Failed!");
-        //     }
-        //     Action[] tests = { FailingTest };
+        static void CallExecuteTestToTestFailedCount()
+        {
+            static void FailingTest()
+            {
+                throw new System.Exception("This Test Failed!");
+            }
+            Action[] tests = { FailingTest };
 
-        //     System.IO.StringWriter sw = new System.IO.StringWriter();
-        //     ExecuteTests(tests, sw);
-        //     string expected = "";
-        //     foreach (Action test in tests)
-        //     {
-        //         expected += $"Failed:{test.Method.Name}\n";
-        //     }
-        //     expected += $"Passed#:{0} | Failed#:{1}\n";
-        //     if (string.Equals(expected, sw.ToString()))
-        //     {
+            System.IO.StringWriter sw = new System.IO.StringWriter();
+            ExecuteTests(tests, sw);
+            string expected = "";
+            foreach (Action test in tests)
+            {
+                expected += $"Failed:{test.Method.Name} - System.Exception: This Test Failed!\n";
+            }
+            expected += $"Passed#:{0} | Failed#:{1}\n";
+            if (string.Equals(expected, sw.ToString()))
+            {
 
-        //     }
-        //     else
-        //     {
-        //         throw new System.Exception($"Strings did NOT match \n'{expected}'\n'{sw.ToString()}'");
-        //     }
-        // }
+            }
+            else
+            {
+                throw new System.Exception($"Strings did NOT match \n'{expected}'\n'{sw.ToString()}'");
+            }
+        }
     }
 }
 
