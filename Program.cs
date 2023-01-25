@@ -200,8 +200,8 @@ internal class Program
             }
             Action[] tests = { PassingTest };
 
-            ExecuteTests(tests);
             System.IO.StringWriter sw = new System.IO.StringWriter();
+            ExecuteTests(tests, sw);
             var testResults = new TestResults();
             string expected = $"Passed#:{0} | Failed#:{0}\n";
             if (string.Equals(expected, sw.ToString()))
