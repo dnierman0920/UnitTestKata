@@ -32,7 +32,8 @@ internal class Program
                 }
                 catch (Exception e2)
                 {
-                    throw new System.Exception($"unexpected exception type {e2.GetType()}, {e2.ToString()}");
+                    // throw new System.Exception($"unexpected exception type {e2.GetType()}, {e2.ToString()}");
+                    testResults.RecordFailingTest(test.Method.Name, writer);
                 }
                 testResults.RecordPassingTest(test.Method.Name, writer);
             }
