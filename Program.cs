@@ -23,6 +23,7 @@ internal class Program
         //  Executor
         static void ExecuteTests(Action[] tests, System.IO.TextWriter writer)
         {
+            var testResults = new TestResults();
             foreach (System.Action test in tests)
             {
                 try
@@ -35,10 +36,9 @@ internal class Program
                     // TestResults.RecordFailingTest
                     throw new System.Exception($"unexpected exception type {e2.GetType()}, {e2.ToString()}");
                 }
-
-                var testResults = new TestResults();
-                testResults.Summarize(writer);
+                testResults.RecordPassingTest(test.Method.Name, writer);
             }
+            testResults.Summarize(writer);
 
         }
         // Asserter
