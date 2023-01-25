@@ -18,10 +18,10 @@ internal class Program
     private static void Main(string[] args)
     {
         Action[] tests = { Test1, Test3, Test4, Test5, Test6, Test7, CallPassedTestTwice, CallRecordFailingTest, CallRecordFailingTestName, CallExecuteTestsWithPassingTest };
-        ExecuteTests(tests);
+        ExecuteTests(tests, new System.IO.StringWriter());
 
         //  Executor
-        static void ExecuteTests(Action[] tests)
+        static void ExecuteTests(Action[] tests, System.IO.TextWriter writer)
         {
             foreach (System.Action test in tests)
             {
