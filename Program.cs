@@ -18,7 +18,7 @@ internal class Program
 
     private static void Main(string[] args)
     {
-        Action[] tests = { Test1, Test3, Test4, Test5, Test6, Test7, CallPassedTestTwice, CallRecordFailingTest, CallRecordFailingTwice, CallRecordFailingTestName, CallRecordFailingTestToTestException };
+        Action[] tests = { Test1, Test3, Test4, Test5, Test6, Test7, CallPassedTestTwice, CallRecordFailingTest, CallRecordFailingTwice, CallRecordFailingTestName, CallRecordFailingTestToTestException, FailingTest, FailingTest };
         ExecuteTests(tests, new System.IO.StringWriter());
 
         //  Executor
@@ -33,7 +33,6 @@ internal class Program
                 }
                 catch (Exception e)
                 {
-                    // throw new System.Exception($"unexpected exception type {e2.GetType()}, {e2.ToString()}");
                     testResults.RecordFailingTest(test.Method.Name, writer, e);
                 }
                 testResults.RecordPassingTest(test.Method.Name, writer);
@@ -177,7 +176,8 @@ internal class Program
                 throw new System.Exception($"Strings did NOT match \n'{expected}'\n'{sw.ToString()}'");
             }
         }
-        // testResult.RecordFailingTest is incrementing failed test count by 1 (failedCount)
+
+        // testResult.RecordFailingTest is incrementing failed test count by 1 each time it is called (failedCount)
         static void CallRecordFailingTwice()
         {
             System.IO.StringWriter sw = new System.IO.StringWriter();
@@ -195,7 +195,6 @@ internal class Program
                 throw new System.Exception($"Strings did NOT match \n'{expected}'\n'{sw.ToString()}'");
             }
         }
-
 
         // testResults.RecordPassingTest is building correct string to display nameOfTest
         static void CallRecordFailingTestName()
@@ -216,6 +215,7 @@ internal class Program
             }
         }
 
+        // testResults.RecordFailingTest is building correct string to display nameOfTest and exception
         static void CallRecordFailingTestToTestException()
         {
             System.IO.StringWriter sw = new System.IO.StringWriter();
@@ -234,6 +234,7 @@ internal class Program
             }
         }
 
+        // The following tests (relating to calling ExecuteTests) were used for discovery and are not needed to be called to test production
         static void CallExecuteTestsToTestSummary()
         {
             Action[] tests = { };
@@ -304,6 +305,12 @@ internal class Program
                 throw new System.Exception($"Strings did NOT match \n'{expected}'\n'{sw.ToString()}'");
             }
         }
+
+        // this test is here to show how the test framework displays a failing test
+        static void FailingTest()
+        {
+            throw new System.Exception("this is a failing test");
+        }
     }
 }
 
@@ -329,7 +336,6 @@ class TestResults
     }
 }
 
-// bonus points print out the error message
 
 
 
