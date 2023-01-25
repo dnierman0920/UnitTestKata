@@ -183,8 +183,9 @@ internal class Program
             System.IO.StringWriter sw = new System.IO.StringWriter();
             var testResults = new TestResults();
             string nameOfTest = "Test#";
-            testResults.RecordFailingTest(nameOfTest, sw, new System.Exception());
-            string expected = $"Failed:{nameOfTest}\n";
+            var e = new System.Exception("This is the exception that was thrown");
+            testResults.RecordFailingTest(nameOfTest, sw, e);
+            string expected = $"Failed:{nameOfTest} - {e.ToString()}\n";
             if (string.Equals(expected, sw.ToString()))
             {
 
@@ -200,8 +201,9 @@ internal class Program
             System.IO.StringWriter sw = new System.IO.StringWriter();
             var testResults = new TestResults();
             string nameOfTest = "Test#";
-            testResults.RecordFailingTest(nameOfTest, sw, new System.Exception());
-            string expected = $"Failed:{nameOfTest}\n";
+            var e = new System.Exception("This is the exception that was thrown");
+            testResults.RecordFailingTest(nameOfTest, sw, e);
+            string expected = $"Failed:{nameOfTest} - {e.ToString()}\n";
             if (string.Equals(expected, sw.ToString()))
             {
 
