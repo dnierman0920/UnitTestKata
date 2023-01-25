@@ -189,6 +189,11 @@ class TestResults
         writer.WriteLine($"Passed:{testName}");
         passedCount++;
     }
+
+    public void RecordFailingTest()
+    {
+
+    }
 }
 // bonus points print out the error message
 
