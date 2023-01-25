@@ -180,7 +180,7 @@ internal class Program
             System.IO.StringWriter sw = new System.IO.StringWriter();
             var testResults = new TestResults();
             string nameOfTest = "Test#";
-            testResults.RecordFailingTest();
+            testResults.RecordFailingTest(nameOfTest);
             string expected = $"Failed:{nameOfTest}\n";
             if (string.Equals(expected, sw.ToString()))
             {
