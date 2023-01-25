@@ -201,7 +201,7 @@ internal class Program
             var testResults = new TestResults();
             string nameOfTest = "Test#";
             testResults.RecordFailingTest(nameOfTest, sw);
-            string expected = $"Failed:{nameOfTest}\n";
+            string expected = $"Failed:{nameOfTest} - Strings did NOT match \n'Failed:{nameOfTest}'\n'{sw.ToString()}'\n";
             if (string.Equals(expected, sw.ToString()))
             {
 
