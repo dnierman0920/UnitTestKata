@@ -37,7 +37,7 @@ internal class Program
                 }
                 // testResults.RecordPassingTest(test.Method.Name, writer);
             }
-            // testResults.Summarize(writer);
+            testResults.Summarize(writer);
             // throw new System.Exception($"\n{writer.ToString()}");
         }
         // Asserter
