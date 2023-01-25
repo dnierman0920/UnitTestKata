@@ -200,8 +200,9 @@ internal class Program
             System.IO.StringWriter sw = new System.IO.StringWriter();
             var testResults = new TestResults();
             string nameOfTest = "Test#";
-            testResults.RecordFailingTest(nameOfTest, sw);
-            string expected = $"Failed:{nameOfTest} - Strings did NOT match \n'Failed:{nameOfTest}'\n'{sw.ToString()}'\n";
+            exception e = new System.Exception();
+            testResults.RecordFailingTest(nameOfTest, sw, e);
+            string expected = $"Failed:{nameOfTest}\n";
             if (string.Equals(expected, sw.ToString()))
             {
 
