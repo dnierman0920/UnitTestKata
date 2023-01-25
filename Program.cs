@@ -163,7 +163,7 @@ internal class Program
             var testResults = new TestResults();
             testResults.RecordFailingTest();
             testResults.Summarize(sw);
-            string expected = $"Passed#:{1} | Failed#:{0}\n";
+            string expected = $"Passed#:{0} | Failed#:{1}\n";
             if (string.Equals(expected, sw.ToString()))
             {
 
@@ -180,9 +180,10 @@ internal class Program
 class TestResults
 {
     int passedCount = 0;
+    int failedCount = 0;
     public void Summarize(System.IO.TextWriter writer)
     {
-        writer.WriteLine($"Passed#:{passedCount} | Failed#:{0}");
+        writer.WriteLine($"Passed#:{passedCount} | Failed#:{failedCount}");
     }
     public void RecordPassingTest(string testName, System.IO.TextWriter writer)
     {
@@ -192,7 +193,7 @@ class TestResults
 
     public void RecordFailingTest()
     {
-
+        failedCount++;
     }
 }
 // bonus points print out the error message
