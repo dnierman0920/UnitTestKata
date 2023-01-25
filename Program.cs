@@ -35,6 +35,9 @@ internal class Program
                     // TestResults.RecordFailingTest
                     throw new System.Exception($"unexpected exception type {e2.GetType()}, {e2.ToString()}");
                 }
+
+                var testResults = new TestResults();
+                testResults.Summarize(writer);
             }
 
         }
