@@ -161,7 +161,7 @@ internal class Program
         {
             System.IO.StringWriter sw = new System.IO.StringWriter();
             var testResults = new TestResults();
-            testResults.RecordFailingTest("random string", sw);
+            testResults.RecordFailingTest("random string", System.IO.StringWriter.Null);
             testResults.Summarize(sw);
             string expected = $"Passed#:{0} | Failed#:{1}\n";
             if (string.Equals(expected, sw.ToString()))
@@ -211,6 +211,7 @@ class TestResults
 
     public void RecordFailingTest(string testName, System.IO.TextWriter writer)
     {
+        writer.WriteLine($"Failed:{testName}");
         failedCount++;
     }
 }
