@@ -17,7 +17,7 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        Action[] tests = { Test1, Test3, Test4, Test5, Test6, Test7, CallPassedTestTwice, CallRecordFailingTest, CallRecordFailingTestName };
+        Action[] tests = { Test1, Test3, Test4, Test5, Test6, Test7, CallPassedTestTwice, CallRecordFailingTest, CallRecordFailingTestName, CallExecuteTestsWithPassingTest };
         ExecuteTests(tests);
 
         //  Executor
@@ -190,6 +190,29 @@ internal class Program
             {
                 throw new System.Exception($"Strings did NOT match \n'{expected}'\n'{sw.ToString()}'");
             }
+        }
+
+        static void CallExecuteTestsWithPassingTest()
+        {
+            static void PassingTest()
+            {
+
+            }
+            Action[] tests = { PassingTest };
+
+            ExecuteTests(tests);
+            System.IO.StringWriter sw = new System.IO.StringWriter();
+            var testResults = new TestResults();
+            string expected = $"Passed#:{0} | Failed#:{0}\n";
+            if (string.Equals(expected, sw.ToString()))
+            {
+
+            }
+            else
+            {
+                throw new System.Exception($"Strings did NOT match \n'{expected}'\n'{sw.ToString()}'");
+            }
+
         }
     }
 }
