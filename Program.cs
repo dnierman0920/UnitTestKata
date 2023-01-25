@@ -17,7 +17,7 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        Action[] tests = { Test1, Test3, Test4, Test5, Test6, Test7, CallPassedTestTwice, CallRecordFailingTest, CallRecordFailingTestName, CallExecuteTestsWithPassingTest };
+        Action[] tests = { Test1, Test3, Test4, Test5, Test6, Test7, CallPassedTestTwice, CallRecordFailingTest, CallRecordFailingTestName, CallExecuteTestsToTestSummary, CallExecuteTestToTestPassedCount };
         ExecuteTests(tests, new System.IO.StringWriter());
 
         //  Executor
@@ -195,7 +195,7 @@ internal class Program
             }
         }
 
-        static void CallExecuteTestsWithPassingTest()
+        static void CallExecuteTestsToTestSummary()
         {
             static void PassingTest()
             {
@@ -207,6 +207,33 @@ internal class Program
             ExecuteTests(tests, sw);
             var testResults = new TestResults();
             string expected = $"Passed#:{0} | Failed#:{0}\n";
+            if (string.Equals(expected, sw.ToString()))
+            {
+
+            }
+            else
+            {
+                throw new System.Exception($"Strings did NOT match \n'{expected}'\n'{sw.ToString()}'");
+            }
+
+        }
+        static void CallExecuteTestToTestPassedCount()
+        {
+            static void PassingTest()
+            {
+
+            }
+            Action[] tests = { PassingTest };
+
+            System.IO.StringWriter sw = new System.IO.StringWriter();
+            ExecuteTests(tests, sw);
+            var testResults = new TestResults();
+            string expected = "";
+            foreach (Action test in tests)
+            {
+                expected += $"Passed:{test.Method.Name}\n";
+            }
+            expected += $"Passed#:{0} | Failed#:{0}\n";
             if (string.Equals(expected, sw.ToString()))
             {
 
