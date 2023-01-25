@@ -163,7 +163,7 @@ internal class Program
         {
             System.IO.StringWriter sw = new System.IO.StringWriter();
             var testResults = new TestResults();
-            testResults.RecordFailingTest("random string", System.IO.StringWriter.Null);
+            testResults.RecordFailingTest("random string", System.IO.StringWriter.Null, new System.Exception());
             testResults.Summarize(sw);
             string expected = $"Passed#:{0} | Failed#:{1}\n";
             if (string.Equals(expected, sw.ToString()))
@@ -183,7 +183,7 @@ internal class Program
             System.IO.StringWriter sw = new System.IO.StringWriter();
             var testResults = new TestResults();
             string nameOfTest = "Test#";
-            testResults.RecordFailingTest(nameOfTest, sw);
+            testResults.RecordFailingTest(nameOfTest, sw, new System.Exception());
             string expected = $"Failed:{nameOfTest}\n";
             if (string.Equals(expected, sw.ToString()))
             {
@@ -200,8 +200,7 @@ internal class Program
             System.IO.StringWriter sw = new System.IO.StringWriter();
             var testResults = new TestResults();
             string nameOfTest = "Test#";
-            exception e = new System.Exception();
-            testResults.RecordFailingTest(nameOfTest, sw, e);
+            testResults.RecordFailingTest(nameOfTest, sw, new System.Exception());
             string expected = $"Failed:{nameOfTest}\n";
             if (string.Equals(expected, sw.ToString()))
             {
@@ -301,7 +300,7 @@ internal class Program
             passedCount++;
         }
 
-        public void RecordFailingTest(string testName, System.IO.TextWriter writer)
+        public void RecordFailingTest(string testName, System.IO.TextWriter writer, System.Exception e)
         {
             writer.WriteLine($"Failed:{testName}");
             failedCount++;
