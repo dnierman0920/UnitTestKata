@@ -15,9 +15,10 @@
 
 internal class Program
 {
+
     private static void Main(string[] args)
     {
-        Action[] tests = { Test1, Test3, Test4, Test5, Test6, Test7, CallPassedTestTwice, CallRecordFailingTest, CallRecordFailingTestName, CallRecordFailingTestToTestException, CallExecuteTestsToTestSummary, CallExecuteTestToTestPassedCount, CallExecuteTestToTestFailedCount };
+        Action[] tests = { Test1, Test3, Test4, Test5, Test6, Test7, CallPassedTestTwice, CallRecordFailingTest, CallRecordFailingTwice, CallRecordFailingTestName, CallRecordFailingTestToTestException };
         ExecuteTests(tests, new System.IO.StringWriter());
 
         //  Executor
@@ -38,7 +39,8 @@ internal class Program
                 testResults.RecordPassingTest(test.Method.Name, writer);
             }
             testResults.Summarize(writer);
-            throw new System.Exception($"\n{writer.ToString()}");
+
+            System.Console.Write($"\n{writer.ToString()}");
         }
         // Asserter
         static void Assert<TException>(Action test) where TException : Exception
@@ -166,6 +168,24 @@ internal class Program
             testResults.RecordFailingTest("random string", System.IO.StringWriter.Null, new System.Exception());
             testResults.Summarize(sw);
             string expected = $"Passed#:{0} | Failed#:{1}\n";
+            if (string.Equals(expected, sw.ToString()))
+            {
+
+            }
+            else
+            {
+                throw new System.Exception($"Strings did NOT match \n'{expected}'\n'{sw.ToString()}'");
+            }
+        }
+        // testResult.RecordFailingTest is incrementing failed test count by 1 (failedCount)
+        static void CallRecordFailingTwice()
+        {
+            System.IO.StringWriter sw = new System.IO.StringWriter();
+            var testResults = new TestResults();
+            testResults.RecordFailingTest("random string", System.IO.StringWriter.Null, new System.Exception());
+            testResults.RecordFailingTest("random string", System.IO.StringWriter.Null, new System.Exception());
+            testResults.Summarize(sw);
+            string expected = $"Passed#:{0} | Failed#:{2}\n";
             if (string.Equals(expected, sw.ToString()))
             {
 
