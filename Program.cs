@@ -209,7 +209,7 @@ class TestResults
         passedCount++;
     }
 
-    public void RecordFailingTest(string testName)
+    public void RecordFailingTest(string testName, System.IO.TextWriter writer)
     {
         failedCount++;
     }
