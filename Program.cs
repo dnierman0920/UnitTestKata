@@ -17,7 +17,7 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        Action[] tests = { Test1, Test3, Test4, Test5, Test6, Test7, CallPassedTestTwice, CallRecordFailingTest, CallRecordFailingTestName, CallExecuteTestsToTestSummary, CallExecuteTestToTestPassedCount, CallExecuteTestToTestFailedCount };
+        Action[] tests = { Test1, Test3, Test4, Test5, Test6, Test7, CallPassedTestTwice, CallRecordFailingTest, CallRecordFailingTestName, CallRecordFailingTestToTestException };
         ExecuteTests(tests, new System.IO.StringWriter());
 
         //  Executor
@@ -32,13 +32,13 @@ internal class Program
                 }
                 catch (Exception e2)
                 {
-                    // throw new System.Exception($"unexpected exception type {e2.GetType()}, {e2.ToString()}");
-                    testResults.RecordFailingTest(test.Method.Name, writer);
+                    throw new System.Exception($"unexpected exception type {e2.GetType()}, {e2.ToString()}");
+                    // testResults.RecordFailingTest(test.Method.Name, writer);
                 }
-                testResults.RecordPassingTest(test.Method.Name, writer);
+                // testResults.RecordPassingTest(test.Method.Name, writer);
             }
-            testResults.Summarize(writer);
-            throw new System.Exception($"\n{writer.ToString()}");
+            // testResults.Summarize(writer);
+            // throw new System.Exception($"\n{writer.ToString()}");
         }
         // Asserter
         static void Assert<TException>(Action test) where TException : Exception
@@ -176,6 +176,7 @@ internal class Program
             }
         }
 
+
         // testResults.RecordPassingTest is building correct string to display nameOfTest
         static void CallRecordFailingTestName()
         {
@@ -194,14 +195,13 @@ internal class Program
             }
         }
 
-        static void CallExecuteTestsToTestSummary()
+        static void CallRecordFailingTestToTestException()
         {
-            Action[] tests = { };
-
             System.IO.StringWriter sw = new System.IO.StringWriter();
-            ExecuteTests(tests, sw);
             var testResults = new TestResults();
-            string expected = $"Passed#:{0} | Failed#:{0}\n";
+            string nameOfTest = "Test#";
+            testResults.RecordFailingTest(nameOfTest, sw);
+            string expected = $"Failed:{nameOfTest}\n";
             if (string.Equals(expected, sw.ToString()))
             {
 
@@ -210,82 +210,101 @@ internal class Program
             {
                 throw new System.Exception($"Strings did NOT match \n'{expected}'\n'{sw.ToString()}'");
             }
-
         }
 
-        static void CallExecuteTestToTestPassedCount()
+        //     static void CallExecuteTestsToTestSummary()
+        //     {
+        //         Action[] tests = { };
+
+        //         System.IO.StringWriter sw = new System.IO.StringWriter();
+        //         ExecuteTests(tests, sw);
+        //         var testResults = new TestResults();
+        //         string expected = $"Passed#:{0} | Failed#:{0}\n";
+        //         if (string.Equals(expected, sw.ToString()))
+        //         {
+
+        //         }
+        //         else
+        //         {
+        //             throw new System.Exception($"Strings did NOT match \n'{expected}'\n'{sw.ToString()}'");
+        //         }
+
+        //     }
+
+        //     static void CallExecuteTestToTestPassedCount()
+        //     {
+        //         static void PassingTest()
+        //         {
+
+        //         }
+        //         Action[] tests = { PassingTest };
+
+        //         System.IO.StringWriter sw = new System.IO.StringWriter();
+        //         ExecuteTests(tests, sw);
+        //         string expected = "";
+        //         foreach (Action test in tests)
+        //         {
+        //             expected += $"Passed:{test.Method.Name}\n";
+        //         }
+        //         expected += $"Passed#:{tests.Length} | Failed#:{0}\n";
+        //         if (string.Equals(expected, sw.ToString()))
+        //         {
+
+        //         }
+        //         else
+        //         {
+        //             throw new System.Exception($"Strings did NOT match \n'{expected}'\n'{sw.ToString()}'");
+        //         }
+        //     }
+
+        //     static void CallExecuteTestToTestFailedCount()
+        //     {
+        //         static void FailingTest()
+        //         {
+        //             throw new System.Exception("This Test Failed!");
+        //         }
+        //         Action[] tests = { FailingTest };
+
+        //         System.IO.StringWriter sw = new System.IO.StringWriter();
+        //         ExecuteTests(tests, sw);
+        //         string expected = "";
+        //         foreach (Action test in tests)
+        //         {
+        //             expected += $"Failed:{test.Method.Name}\n";
+        //         }
+        //         expected += $"Passed#:{0} | Failed#:{1}\n";
+        //         if (string.Equals(expected, sw.ToString()))
+        //         {
+
+        //         }
+        //         else
+        //         {
+        //             throw new System.Exception($"Strings did NOT match \n'{expected}'\n'{sw.ToString()}'");
+        //         }
+        //     }
+        // }
+    }
+
+    // Result Summarizer
+    class TestResults
+    {
+        int passedCount = 0;
+        int failedCount = 0;
+        public void Summarize(System.IO.TextWriter writer)
         {
-            static void PassingTest()
-            {
-
-            }
-            Action[] tests = { PassingTest };
-
-            System.IO.StringWriter sw = new System.IO.StringWriter();
-            ExecuteTests(tests, sw);
-            string expected = "";
-            foreach (Action test in tests)
-            {
-                expected += $"Passed:{test.Method.Name}\n";
-            }
-            expected += $"Passed#:{tests.Length} | Failed#:{0}\n";
-            if (string.Equals(expected, sw.ToString()))
-            {
-
-            }
-            else
-            {
-                throw new System.Exception($"Strings did NOT match \n'{expected}'\n'{sw.ToString()}'");
-            }
+            writer.WriteLine($"Passed#:{passedCount} | Failed#:{failedCount}");
         }
-
-        static void CallExecuteTestToTestFailedCount()
+        public void RecordPassingTest(string testName, System.IO.TextWriter writer)
         {
-            static void FailingTest()
-            {
-                throw new System.Exception("This Test Failed!");
-            }
-            Action[] tests = { FailingTest };
-
-            System.IO.StringWriter sw = new System.IO.StringWriter();
-            ExecuteTests(tests, sw);
-            string expected = "";
-            foreach (Action test in tests)
-            {
-                expected += $"Failed:{test.Method.Name}\n";
-            }
-            expected += $"Passed#:{0} | Failed#:{1}\n";
-            if (string.Equals(expected, sw.ToString()))
-            {
-
-            }
-            else
-            {
-                throw new System.Exception($"Strings did NOT match \n'{expected}'\n'{sw.ToString()}'");
-            }
+            writer.WriteLine($"Passed:{testName}");
+            passedCount++;
         }
-    }
-}
 
-// Result Summarizer
-class TestResults
-{
-    int passedCount = 0;
-    int failedCount = 0;
-    public void Summarize(System.IO.TextWriter writer)
-    {
-        writer.WriteLine($"Passed#:{passedCount} | Failed#:{failedCount}");
-    }
-    public void RecordPassingTest(string testName, System.IO.TextWriter writer)
-    {
-        writer.WriteLine($"Passed:{testName}");
-        passedCount++;
-    }
-
-    public void RecordFailingTest(string testName, System.IO.TextWriter writer)
-    {
-        writer.WriteLine($"Failed:{testName}");
-        failedCount++;
+        public void RecordFailingTest(string testName, System.IO.TextWriter writer)
+        {
+            writer.WriteLine($"Failed:{testName}");
+            failedCount++;
+        }
     }
 }
 // bonus points print out the error message
