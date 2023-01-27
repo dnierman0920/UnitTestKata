@@ -34,6 +34,7 @@ internal class Program
                 }
                 catch (Exception e)
                 {
+                    Assert<Exception>(test);
                     testResults.RecordFailingTest(test.Method.Name, writer, e);
                 }
 
