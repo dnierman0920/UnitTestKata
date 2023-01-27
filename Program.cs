@@ -18,7 +18,7 @@ internal class Program
 
     private static void Main(string[] args)
     {
-        Action[] tests = { Test1, Test3, Test4, Test5, Test6, Test7, CallPassedTestTwice, CallRecordFailingTest, CallRecordFailingTwice, CallRecordFailingTestName, CallRecordFailingTestToTestException, FailingTest, FailingTest };
+        Action[] tests = { Test1, Test3, Test4, Test5, Test6, Test7, CallPassedTestTwice, CallRecordFailingTest, CallRecordFailingTwice, CallRecordFailingTestName, CallRecordFailingTestToTestException, CallExecuteTestsToTestSummary, CallExecuteTestToTestPassedCount, CallExecuteTestToTestFailedCount };
         ExecuteTests(tests, new System.IO.StringWriter());
 
         //  Executor
@@ -30,12 +30,13 @@ internal class Program
                 try
                 {
                     test();
+                    testResults.RecordPassingTest(test.Method.Name, writer);
                 }
                 catch (Exception e)
                 {
                     testResults.RecordFailingTest(test.Method.Name, writer, e);
                 }
-                testResults.RecordPassingTest(test.Method.Name, writer);
+
             }
             testResults.Summarize(writer);
 
@@ -282,9 +283,10 @@ internal class Program
 
         static void CallExecuteTestToTestFailedCount()
         {
-            static void FailingTest()
+            Exception e = new System.Exception("This Test Failed!");
+            void FailingTest()
             {
-                throw new System.Exception("This Test Failed!");
+                throw e;
             }
             Action[] tests = { FailingTest };
 
@@ -293,7 +295,7 @@ internal class Program
             string expected = "";
             foreach (Action test in tests)
             {
-                expected += $"Failed:{test.Method.Name} - System.Exception: This Test Failed!\n";
+                expected += $"Failed:{test.Method.Name} - {e.ToString()}\n";
             }
             expected += $"Passed#:{0} | Failed#:{1}\n";
             if (string.Equals(expected, sw.ToString()))
@@ -302,14 +304,8 @@ internal class Program
             }
             else
             {
-                throw new System.Exception($"Strings did NOT match \n'{expected}'\n'{sw.ToString()}'");
+                throw new System.Exception($"Strings did NOT match\n Expected: \n'{expected}'\n Actual: \n'{sw.ToString()}'");
             }
-        }
-
-        // this test is here to show how the test framework displays a failing test
-        static void FailingTest()
-        {
-            throw new System.Exception("this is a failing test");
         }
     }
 }
